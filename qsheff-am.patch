@@ -1,124 +1,14 @@
---- ./Makefile.am~	2005-08-02 22:27:14.000000000 +0300
-+++ ./Makefile.am	2005-08-29 10:45:08.000000000 +0300
-@@ -50,9 +50,9 @@
- 	done
- 
- install-data-hook:
--	cp -f qsheff @QMAILDIR@/bin/qmail-qsheff
--	chown root:@QMAILGROUP@ @QMAILDIR@/bin/qmail-qsheff
--	chmod 4511 @QMAILDIR@/bin/qmail-qsheff
-+	cp -f qsheff $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
-+	chown root:@QMAILGROUP@ $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
-+	chmod 4511 $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	@echo
- 	@echo "NOTICE! qsheff has not installed yet."
- 	@echo "Type '@prefix@/etc/qsheff/install-wrapper.sh' to install it manually."
---- ./etc/Makefile.am~	2005-08-02 13:14:12.000000000 +0300
-+++ ./etc/Makefile.am	2005-08-29 10:51:12.000000000 +0300
-@@ -14,10 +14,10 @@
- EXTRA_DIST = $(qsheffconf_DATA)
- 
- install-data-hook:
--	cp -f qsheff.conf-default ${qsheffconfdir}/qsheff.conf
--	if [ ! -f "${qsheffconfdir}/qsheff.attach" ]; then cp -f qsheff.attach-default ${qsheffconfdir}/qsheff.attach; fi
--	if [ ! -f "${qsheffconfdir}/qsheff.wblist" ]; then cp -f qsheff.wblist-default ${qsheffconfdir}/qsheff.wblist; fi
--	if [ ! -f "${qsheffconfdir}/qsheff.rules" ]; then cp -f qsheff.rules-default ${qsheffconfdir}/qsheff.rules; fi
-+	cp -f qsheff.conf-default $(DESTDIR)${qsheffconfdir}/qsheff.conf
-+	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.attach" ]; then cp -f qsheff.attach-default $(DESTDIR)${qsheffconfdir}/qsheff.attach; fi
-+	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.wblist" ]; then cp -f qsheff.wblist-default $(DESTDIR)${qsheffconfdir}/qsheff.wblist; fi
-+	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.rules" ]; then cp -f qsheff.rules-default $(DESTDIR)${qsheffconfdir}/qsheff.rules; fi
- 	chmod 755 uninstall-wrapper.sh install-wrapper.sh
--	cp -f uninstall-wrapper.sh install-wrapper.sh ${qsheffconfdir}/
-+	cp -f uninstall-wrapper.sh install-wrapper.sh $(DESTDIR)${qsheffconfdir}/
- 
---- ./Makefile.am~	2005-08-29 10:51:23.000000000 +0300
-+++ ./Makefile.am	2005-08-29 11:14:11.000000000 +0300
-@@ -50,6 +50,7 @@
- 	done
- 
- install-data-hook:
-+	install -d $(DESTDIR)@QMAILDIR@/bin
- 	cp -f qsheff $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	chown root:@QMAILGROUP@ $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	chmod 4511 $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
---- ./Makefile.am~	2005-08-29 11:14:17.000000000 +0300
-+++ ./Makefile.am	2005-08-29 11:15:31.000000000 +0300
-@@ -52,7 +52,6 @@
- install-data-hook:
- 	install -d $(DESTDIR)@QMAILDIR@/bin
- 	cp -f qsheff $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
--	chown root:@QMAILGROUP@ $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	chmod 4511 $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	@echo
- 	@echo "NOTICE! qsheff has not installed yet."
---- ./etc/Makefile.am~	2005-08-29 11:15:49.000000000 +0300
-+++ ./etc/Makefile.am	2005-08-29 11:20:23.000000000 +0300
-@@ -4,7 +4,7 @@
- # EnderUNIX SDT @ Turkey
- # http://www.enderunix.org/
- 
--qsheffconfdir = ${prefix}/etc/qsheff
-+qsheffconfdir = ${sysconfdir}/qsheff
- qsheffconf_DATA =\
- 		qsheff.attach-default\
- 		qsheff.conf-default\
---- ./Makefile.am~	2005-08-29 11:43:24.000000000 +0300
-+++ ./Makefile.am	2005-08-29 11:47:47.000000000 +0300
-@@ -4,7 +4,7 @@
+diff -Nur qsheff-1.0-r3.orig/Makefile.am qsheff-1.0-r3/Makefile.am
+--- qsheff-1.0-r3.orig/Makefile.am	2005-08-02 22:27:14.000000000 +0300
++++ qsheff-1.0-r3/Makefile.am	2005-08-29 12:18:33.000000000 +0300
+@@ -4,14 +4,13 @@
  # EnderUNIX SDT @ Turkey
  # http://www.enderunix.org/
  
 -SUBDIRS = etc share contribute
-+SUBDIRS = etc contribute
++SUBDIRS = etc
  
  bin_PROGRAMS= qsheff
- 
---- ./configure.in~	2005-08-12 11:54:41.000000000 +0300
-+++ ./configure.in	2005-08-29 12:06:30.000000000 +0300
-@@ -31,7 +31,7 @@
- fi
- AC_SUBST(RIPMIME)
- 
--config_dir="$prefix/etc/$PACKAGE"
-+config_dir="$sysconfdir/$PACKAGE"
- domain=`cat ${QMAILDIR}/control/me`
- AC_DEFINE_UNQUOTED(CFGFILE, "$config_dir/qsheff.conf",[qsheff.conf full path])
- AC_DEFINE_UNQUOTED(WBLISTFILE, "$config_dir/qsheff.wblist",[qsheff.wblist full path])
---- ./configure.in~	2005-08-29 12:06:30.000000000 +0300
-+++ ./configure.in	2005-08-29 12:07:10.000000000 +0300
-@@ -32,7 +32,7 @@
- AC_SUBST(RIPMIME)
- 
- config_dir="$sysconfdir/$PACKAGE"
--domain=`cat ${QMAILDIR}/control/me`
-+domain='localhost'
- AC_DEFINE_UNQUOTED(CFGFILE, "$config_dir/qsheff.conf",[qsheff.conf full path])
- AC_DEFINE_UNQUOTED(WBLISTFILE, "$config_dir/qsheff.wblist",[qsheff.wblist full path])
- AC_DEFINE_UNQUOTED(ATTACHFILE, "$config_dir/qsheff.attach",[qsheff.attach full path])
---- ./configure.in~	2005-08-29 12:07:10.000000000 +0300
-+++ ./configure.in	2005-08-29 12:08:13.000000000 +0300
-@@ -22,7 +22,7 @@
- AC_CHECK_QMAILGROUP
- AC_CHECK_MAX_WORDCOUNT
- 
--QUEUE_PROGRAM="${QMAILDIR}/bin/qmail-queue.orig"
-+QUEUE_PROGRAM="${QMAILDIR}/bin/qmail-queue"
- AC_SUBST(QUEUE_PROGRAM)
- 
- AC_PATH_PROG( [RIPMIME], [ripmime], [FALSE], [$PATH])
---- ./Makefile.am~	2005-08-29 12:09:14.000000000 +0300
-+++ ./Makefile.am	2005-08-29 12:11:10.000000000 +0300
-@@ -52,7 +52,6 @@
- install-data-hook:
- 	install -d $(DESTDIR)@QMAILDIR@/bin
- 	cp -f qsheff $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
--	chmod 4511 $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
- 	@echo
- 	@echo "NOTICE! qsheff has not installed yet."
- 	@echo "Type '@prefix@/etc/qsheff/install-wrapper.sh' to install it manually."
---- ./Makefile.am~	2005-08-29 12:13:35.000000000 +0300
-+++ ./Makefile.am	2005-08-29 12:13:37.000000000 +0300
-@@ -10,8 +10,7 @@
  
  qsheff_SOURCES= main.c loadconfig.c toolkit.c log.c smtp.c wblist.c scanengine.c rewrite.c miscutil.c
  
@@ -137,14 +27,66 @@
  
  # Copy all the spec files. Of cource, only one is actually used.
  dist-hook:
---- ./Makefile.am~	2005-08-29 12:13:47.000000000 +0300
-+++ ./Makefile.am	2005-08-29 12:14:41.000000000 +0300
+@@ -50,9 +49,8 @@
+ 	done
+ 
+ install-data-hook:
+-	cp -f qsheff @QMAILDIR@/bin/qmail-qsheff
+-	chown root:@QMAILGROUP@ @QMAILDIR@/bin/qmail-qsheff
+-	chmod 4511 @QMAILDIR@/bin/qmail-qsheff
++	install -d $(DESTDIR)@QMAILDIR@/bin
++	cp -f qsheff $(DESTDIR)@QMAILDIR@/bin/qmail-qsheff
+ 	@echo
+ 	@echo "NOTICE! qsheff has not installed yet."
+ 	@echo "Type '@prefix@/etc/qsheff/install-wrapper.sh' to install it manually."
+diff -Nur qsheff-1.0-r3.orig/configure.in qsheff-1.0-r3/configure.in
+--- qsheff-1.0-r3.orig/configure.in	2005-08-12 11:54:41.000000000 +0300
++++ qsheff-1.0-r3/configure.in	2005-08-29 12:18:33.000000000 +0300
+@@ -22,7 +22,7 @@
+ AC_CHECK_QMAILGROUP
+ AC_CHECK_MAX_WORDCOUNT
+ 
+-QUEUE_PROGRAM="${QMAILDIR}/bin/qmail-queue.orig"
++QUEUE_PROGRAM="${QMAILDIR}/bin/qmail-queue"
+ AC_SUBST(QUEUE_PROGRAM)
+ 
+ AC_PATH_PROG( [RIPMIME], [ripmime], [FALSE], [$PATH])
+@@ -31,8 +31,8 @@
+ fi
+ AC_SUBST(RIPMIME)
+ 
+-config_dir="$prefix/etc/$PACKAGE"
+-domain=`cat ${QMAILDIR}/control/me`
++config_dir="$sysconfdir/$PACKAGE"
++domain='localhost'
+ AC_DEFINE_UNQUOTED(CFGFILE, "$config_dir/qsheff.conf",[qsheff.conf full path])
+ AC_DEFINE_UNQUOTED(WBLISTFILE, "$config_dir/qsheff.wblist",[qsheff.wblist full path])
+ AC_DEFINE_UNQUOTED(ATTACHFILE, "$config_dir/qsheff.attach",[qsheff.attach full path])
+diff -Nur qsheff-1.0-r3.orig/etc/Makefile.am qsheff-1.0-r3/etc/Makefile.am
+--- qsheff-1.0-r3.orig/etc/Makefile.am	2005-08-02 13:14:12.000000000 +0300
++++ qsheff-1.0-r3/etc/Makefile.am	2005-08-29 12:18:33.000000000 +0300
 @@ -4,7 +4,7 @@
  # EnderUNIX SDT @ Turkey
  # http://www.enderunix.org/
  
--SUBDIRS = etc contribute
-+SUBDIRS = etc
+-qsheffconfdir = ${prefix}/etc/qsheff
++qsheffconfdir = ${sysconfdir}/qsheff
+ qsheffconf_DATA =\
+ 		qsheff.attach-default\
+ 		qsheff.conf-default\
+@@ -14,10 +14,10 @@
+ EXTRA_DIST = $(qsheffconf_DATA)
  
- bin_PROGRAMS= qsheff
+ install-data-hook:
+-	cp -f qsheff.conf-default ${qsheffconfdir}/qsheff.conf
+-	if [ ! -f "${qsheffconfdir}/qsheff.attach" ]; then cp -f qsheff.attach-default ${qsheffconfdir}/qsheff.attach; fi
+-	if [ ! -f "${qsheffconfdir}/qsheff.wblist" ]; then cp -f qsheff.wblist-default ${qsheffconfdir}/qsheff.wblist; fi
+-	if [ ! -f "${qsheffconfdir}/qsheff.rules" ]; then cp -f qsheff.rules-default ${qsheffconfdir}/qsheff.rules; fi
++	cp -f qsheff.conf-default $(DESTDIR)${qsheffconfdir}/qsheff.conf
++	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.attach" ]; then cp -f qsheff.attach-default $(DESTDIR)${qsheffconfdir}/qsheff.attach; fi
++	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.wblist" ]; then cp -f qsheff.wblist-default $(DESTDIR)${qsheffconfdir}/qsheff.wblist; fi
++	if [ ! -f "$(DESTDIR)${qsheffconfdir}/qsheff.rules" ]; then cp -f qsheff.rules-default $(DESTDIR)${qsheffconfdir}/qsheff.rules; fi
+ 	chmod 755 uninstall-wrapper.sh install-wrapper.sh
+-	cp -f uninstall-wrapper.sh install-wrapper.sh ${qsheffconfdir}/
++	cp -f uninstall-wrapper.sh install-wrapper.sh $(DESTDIR)${qsheffconfdir}/
  
