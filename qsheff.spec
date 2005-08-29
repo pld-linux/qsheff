@@ -1,6 +1,7 @@
 # TODO
 # - QMAILQUEUE integration
 Summary:	qSheff - qmail queue wrapper
+Summary(pl):	qSheff - wrapper dla kolejki qmaila
 Name:		qsheff
 %define	_ver 1.0
 %define	_rel 3
@@ -27,6 +28,12 @@ qSheff is a wrapper for the qmail queue that scans email for viruses
 and spam. Infected messages are rejected before they reach the queue,
 so the server doesn't perform any job for them. After checking the
 message, it will wake the qmail queue.
+
+%description -l pl
+qSheff to wrapper dla kolejki wmaila skanuj±cy pocztê pod k±tem
+wirusów i spamu. Zainfekowane wiadomo¶ci s± odrzucane zanim wejd± do
+kolejki, wiêc serwer nie wykona na nich ¿adnej pracy. Po sprawdzeniu
+wiadomo¶ci zostanie ona umieszczona w kolejce.
 
 %prep
 %setup -q -n %{name}-%{_ver}-r%{_rel}
