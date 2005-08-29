@@ -5,7 +5,7 @@ Name:		qsheff
 %define	_ver 1.0
 %define	_rel 3
 Version:	%{_ver}.%{_rel}
-Release:	0.4
+Release:	0.6
 Epoch:		0
 License:	GPL v2
 Group:		Applications/Mail
