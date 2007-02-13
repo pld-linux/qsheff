@@ -1,7 +1,7 @@
 # TODO
 # - QMAILQUEUE integration
 Summary:	qSheff - qmail queue wrapper
-Summary(pl.UTF-8):   qSheff - wrapper dla kolejki qmaila
+Summary(pl.UTF-8):	qSheff - wrapper dla kolejki qmaila
 Name:		qsheff
 %define	_ver 1.0
 %define	_rel 3
