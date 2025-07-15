@@ -37,7 +37,7 @@ wiadomości zostanie ona umieszczona w kolejce.
 
 %prep
 %setup -q -n %{name}-%{_ver}-r%{_rel}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__aclocal} -I m4
